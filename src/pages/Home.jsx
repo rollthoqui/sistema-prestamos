@@ -243,17 +243,17 @@ function Home() {
                 <td className="py-3 px-4 text-orange-500 font-medium">Inmediata</td>
               </tr>
               <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition">
-                <td className="py-3 px-4 font-medium text-white">Seguimiento de préstamos</td>
+                <td className="py-3 px-4 font-medium text-white">Servicio de Prestamos </td>
                 <td className="py-3 px-4">Sed do eiusmod tempor incididunt ut labore et dolore.</td>
                 <td className="py-3 px-4 text-orange-500 font-medium">24/7</td>
               </tr>
               <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition">
-                <td className="py-3 px-4 font-medium text-white">Registro de devoluciones</td>
+                <td className="py-3 px-4 font-medium text-white">Servicio de Electrodomesticos</td>
                 <td className="py-3 px-4">Ut enim ad minim veniam quis nostrud exercitation.</td>
                 <td className="py-3 px-4 text-orange-500 font-medium">Inmediata</td>
               </tr>
               <tr className="hover:bg-gray-800/50 transition">
-                <td className="py-3 px-4 font-medium text-white">Historial de responsables</td>
+                <td className="py-3 px-4 font-medium text-white">Servicio de Inmuebles</td>
                 <td className="py-3 px-4">Duis aute irure dolor in reprehenderit in voluptate.</td>
                 <td className="py-3 px-4 text-orange-500 font-medium">Inmediata</td>
               </tr>
