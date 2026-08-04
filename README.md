@@ -2,7 +2,7 @@
 
 Aplicación web para gestionar préstamos de objetos: consulta de préstamos, seguimiento de responsables y registro de devoluciones. Proyecto universitario desarrollado con React.
 
-## 📋 Descripción
+##  Descripción
 
 El sistema permite:
 - Consultar los préstamos activos
@@ -10,7 +10,7 @@ El sistema permite:
 - Registrar devoluciones
 - Solicitar un nuevo préstamo (con inicio de sesión requerido)
 
-## 🛠️ Tecnologías y herramientas utilizadas
+##  Tecnologías y herramientas utilizadas
 
 | Categoría | Herramienta |
 |---|---|
@@ -24,7 +24,7 @@ El sistema permite:
 | Autenticación | Firebase Authentication |
 | Control de versiones | Git + GitHub |
 
-## 📁 Estructura del proyecto
+##  Estructura del proyecto
 
 ```
 sistema-prestamos/
@@ -44,7 +44,7 @@ sistema-prestamos/
 └── vite.config.js
 ```
 
-## ⚙️ Cómo funciona el código
+##  Cómo funciona el código
 
 ### Enrutamiento (`App.jsx`)
 La aplicación es una **SPA** (Single Page Application): todas las páginas se cargan sobre un único `index.html`, y `react-router-dom` cambia el contenido visible según la URL, sin recargar el navegador. Actualmente define dos rutas:
@@ -63,7 +63,7 @@ Contiene:
 ### Autenticación (`firebase.js` + `LoginModal.jsx`)
 El botón "Solicitar Préstamo" abre un modal de inicio de sesión que usa `signInWithEmailAndPassword` del SDK de Firebase Authentication. Al iniciar sesión correctamente, redirige a la página de solicitud de préstamo.
 
-## 🚀 Cómo ejecutar el proyecto
+##  Cómo ejecutar el proyecto
 
 ### Requisitos previos
 - [Node.js](https://nodejs.org) instalado (versión LTS recomendada)
@@ -114,7 +114,7 @@ http://localhost:5173
 | `npm run build` | Genera la versión de producción en la carpeta `dist/` |
 | `npm run preview` | Sirve localmente la versión ya compilada (`dist/`) |
 
-## 📌 Estado actual del proyecto
+##  Estado actual del proyecto
 
 **Implementado:**
 - Página principal con diseño completo
@@ -127,6 +127,6 @@ http://localhost:5173
 - Registro de nuevos usuarios
 - Despliegue en producción
 
-## 👤 Autor
+##  Autor
 
 Angel Samuel Roa

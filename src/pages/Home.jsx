@@ -11,7 +11,7 @@ const slides = [
   { etiqueta: "Eslogan", titulo: '"Presta fácil, devuelve más fácil"', texto: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem." },
 ]
 
-// Scroll suave manual — ignora configuraciones del sistema que fuerzan scroll instantáneo
+//
 function scrollSuaveA(id, offset = 80) {
   const el = document.getElementById(id)
   if (!el) return
@@ -73,15 +73,15 @@ function Home() {
          onClick={(e) => irASeccion(e, "inicio")}
          className="text-xl font-semibold text-white hover:opacity-80 transition"
          >
-    Presta<span className="text-orange-500">Fácil</span>
+    Presta<span className="text-orange-500/90">Fácil</span>
         </button>
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
-            <a href="#nosotros" onClick={(e) => irASeccion(e, "nosotros")} className="hover:text-orange-500 transition">Acerca de</a>
-            <a href="#servicios" onClick={(e) => irASeccion(e, "servicios")} className="hover:text-orange-500 transition">Servicios</a>
-            <a href="#contacto" onClick={(e) => irASeccion(e, "contacto")} className="hover:text-orange-500 transition">Contacto</a>
+            <a href="#nosotros" onClick={(e) => irASeccion(e, "nosotros")} className="hover:text-orange-500/90 transition">Acerca de</a>
+            <a href="#servicios" onClick={(e) => irASeccion(e, "servicios")} className="hover:text-orange-500/90 transition">Servicios</a>
+            <a href="#contacto" onClick={(e) => irASeccion(e, "contacto")} className="hover:text-orange-500/90 transition">Contacto</a>
             <button
             onClick={() => setMostrarLogin(true)}
-            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2.5 rounded-full transition shadow-md shadow-orange-500/30"
+            className="bg-orange-600 hover:bg-orange-600 text-white font-semibold px-6 py-2.5 rounded-full transition shadow-md shadow-orange-500/30"
             >
             Solicitar Préstamo
             </button>
@@ -89,38 +89,34 @@ function Home() {
       </header>
 
       {/* Carrusel */}
-      <section id="inicio" className="relative w-full h-72 md:h-112 bg-black overflow-hidden">
+      <section id="inicio" className="relative w-full h-72 md:h-155
+       bg-gray-900 overflow-hidden">
         {slides.map((s, i) => (
           <div
             key={i}
             className={`absolute inset-0 flex items-center justify-center flex-col gap-3 px-6 text-center transition-opacity duration-700 ${
               i === actual ? "opacity-100" : "opacity-0 pointer-events-none"
-            } ${i % 2 === 0 ? "bg-black" : "bg-black"}`}
+            } ${i % 2 === 0 ? "bg-gray-900" : "bg-gray-900"}`}
           >
-            <span className="text-orange-500 text-sm font-semibold uppercase tracking-widest">{s.etiqueta}</span>
+            <span className="text-orange-500/90 text-sm font-semibold uppercase tracking-widest">{s.etiqueta}</span>
             <h2 className="text-2xl md:text-3xl font-semibold text-white max-w-2xl">{s.titulo}</h2>
             <p className="text-gray-300 max-w-lg">{s.texto}</p>
           </div>
         ))}
-        <button onClick={anterior} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-orange-500 text-white w-10 h-10 rounded-full flex items-center justify-center transition">‹</button>
-        <button onClick={siguiente} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-orange-500 text-white w-10 h-10 rounded-full flex items-center justify-center transition">›</button>
+        <button onClick={anterior} className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-900/40 hover:bg-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center transition">‹</button>
+        <button onClick={siguiente} className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-900/40 hover:bg-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center transition">›</button>
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
           {slides.map((_, i) => (
-            <button key={i} onClick={() => setActual(i)} className={`w-2.5 h-2.5 rounded-full transition ${i === actual ? "bg-orange-500" : "bg-gray-500"}`} />
+            <button key={i} onClick={() => setActual(i)} className={`w-2.5 h-2.5 rounded-full transition ${i === actual ? "bg-orange-600" : "bg-gray-500"}`} />
           ))}
         </div>
       </section>
-
-      {/* Franja horizontal de imagen */}
-      <div className="w-full h-64 md:h-80 bg-black flex items-center justify-center text-white text-sm font-medium">
-        Espacio horizontal para imagen
-      </div>
 
       {/* ¿Por qué? — texto izquierda, imagen derecha */}
       <section className="px-6 md:px-16 py-24">
         <div className="flex flex-col md:flex-row items-center gap-10">
           <div className="flex-1">
-            <span className="text-orange-500 text-sm font-semibold uppercase tracking-widest">¿Por qué?</span>
+            <span className="text-orange-500/90 text-sm font-semibold uppercase tracking-widest">¿Por qué?</span>
             <h2 className="text-2xl font-semibold text-gray-900 mt-2 mb-4">
               La razón detrás de PrestaFácil
             </h2>
@@ -134,7 +130,7 @@ function Home() {
               cillum dolore eu fugiat nulla pariatur excepteur sint occaecat.
             </p>
           </div>
-          <div className="flex-1 w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center text-orange-500 text-sm font-medium">
+          <div className="flex-1 w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center text-orange-500/90 text-sm font-medium">
             Espacio para imagen
           </div>
         </div>
@@ -146,7 +142,7 @@ function Home() {
       <section className="px-6 md:px-16 py-24 bg-gray-50">
         <div className="flex flex-col md:flex-row-reverse items-center gap-10">
           <div className="flex-1">
-            <span className="text-orange-500 text-sm font-semibold uppercase tracking-widest">Visión</span>
+            <span className="text-orange-500/90 text-sm font-semibold uppercase tracking-widest">Visión</span>
             <h2 className="text-2xl font-semibold text-gray-900 mt-2 mb-4">
               Hacia dónde vamos
             </h2>
@@ -159,7 +155,7 @@ function Home() {
               odit aut fugit, sed quia consequuntur magni dolores.
             </p>
           </div>
-          <div className="flex-1 w-full h-64 bg-orange-500 rounded-lg flex items-center justify-center text-white text-sm font-medium">
+          <div className="flex-1 w-full h-64 bg-orange-600 rounded-lg flex items-center justify-center text-white text-sm font-medium">
             Espacio para imagen
           </div>
         </div>
@@ -174,7 +170,7 @@ function Home() {
       <section className="px-6 md:px-16 py-24">
         <div className="flex flex-col md:flex-row items-center gap-10">
           <div className="flex-1">
-            <span className="text-orange-500 text-sm font-semibold uppercase tracking-widest">Misión</span>
+            <span className="text-orange-500/90 text-sm font-semibold uppercase tracking-widest">Misión</span>
             <h2 className="text-2xl font-semibold text-gray-900 mt-2 mb-4">
               Lo que hacemos cada día
             </h2>
@@ -187,7 +183,7 @@ function Home() {
               qui officia deserunt mollit anim id est laborum.
             </p>
           </div>
-          <div className="flex-1 w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center text-orange-500 text-sm font-medium">
+          <div className="flex-1 w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center text-orange-500/90 text-sm font-medium">
             Espacio para imagen
           </div>
         </div>
@@ -209,7 +205,7 @@ function Home() {
               cillum dolore eu fugiat nulla pariatur.
             </p>
           </div>
-          <div className="flex-1 w-full h-64 bg-orange-500 rounded-lg flex items-center justify-center text-white text-sm font-medium">
+          <div className="flex-1 w-full h-64 bg-orange-600 rounded-lg flex items-center justify-center text-white text-sm font-medium">
             Espacio para imagen
           </div>
         </div>
@@ -240,22 +236,22 @@ function Home() {
               <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition">
                 <td className="py-3 px-4 font-medium text-white">Préstamo de objetos</td>
                 <td className="py-3 px-4">Lorem ipsum dolor sit amet consectetur adipiscing elit.</td>
-                <td className="py-3 px-4 text-orange-500 font-medium">Inmediata</td>
+                <td className="py-3 px-4 text-orange-500/90 font-medium">Inmediata</td>
               </tr>
               <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition">
                 <td className="py-3 px-4 font-medium text-white">Servicio de Prestamos </td>
                 <td className="py-3 px-4">Sed do eiusmod tempor incididunt ut labore et dolore.</td>
-                <td className="py-3 px-4 text-orange-500 font-medium">24/7</td>
+                <td className="py-3 px-4 text-orange-500/90 font-medium">24/7</td>
               </tr>
               <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition">
                 <td className="py-3 px-4 font-medium text-white">Servicio de Electrodomesticos</td>
                 <td className="py-3 px-4">Ut enim ad minim veniam quis nostrud exercitation.</td>
-                <td className="py-3 px-4 text-orange-500 font-medium">Inmediata</td>
+                <td className="py-3 px-4 text-orange-500/90 font-medium">Inmediata</td>
               </tr>
               <tr className="hover:bg-gray-800/50 transition">
                 <td className="py-3 px-4 font-medium text-white">Servicio de Inmuebles</td>
                 <td className="py-3 px-4">Duis aute irure dolor in reprehenderit in voluptate.</td>
-                <td className="py-3 px-4 text-orange-500 font-medium">Inmediata</td>
+                <td className="py-3 px-4 text-orange-500/90 font-medium">Inmediata</td>
               </tr>
             </tbody>
           </table>
@@ -263,8 +259,8 @@ function Home() {
       </section>
 
       {/* Contacto — formulario para que el visitante deje sus datos */}
-      <section id="contacto" className="scroll-mt-24 px-6 md:px-16 py-24 bg-black">
-        <h2 className="text-2xl font-semibold text-orange-500 text-center mb-4">Contacto</h2>
+      <section id="contacto" className="scroll-mt-24 px-6 md:px-16 py-24 bg-gray-900">
+        <h2 className="text-2xl font-semibold text-orange-500/90 text-center mb-4">Contacto</h2>
         <p className="text-gray-400 max-w-lg mx-auto text-center mb-10">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Déjanos
           tus datos y te responderemos pronto.
@@ -293,7 +289,7 @@ function Home() {
           />
           <button
             type="submit"
-            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-full transition"
+            className="bg-orange-600 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-full transition"
           >
             Enviar
           </button>
@@ -301,7 +297,7 @@ function Home() {
       </section>
 
       {/* Pie de página */}
-      <footer className="bg-black text-gray-500 text-center py-4 text-sm border-t border-gray-800">
+      <footer className="bg-gray-900 text-gray-500 text-center py-4 text-sm border-t border-gray-800">
         © {new Date().getFullYear()} PrestaFácil. Todos los derechos reservados.
       </footer>
       {mostrarLogin && (
