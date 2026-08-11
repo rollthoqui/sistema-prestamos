@@ -60,9 +60,9 @@ function Home() {
   const [mostrarLogin, setMostrarLogin] = useState(false)
   const navigate = useNavigate()
 
-  const handleLoginExitoso = () => {
+  const handleLoginExitoso = (rol) => {
   setMostrarLogin(false)
-  navigate("/solicitar")
+  navigate(rol === "admin" ? "/admin" : "/solicitar")
     }
 
   return (
@@ -259,7 +259,7 @@ function Home() {
       </section>
 
       {/* Contacto — formulario para que el visitante deje sus datos */}
-      <section id="contacto" className="scroll-mt-24 px-6 md:px-16 py-24 bg-gray-900">
+      <section id="contacto" className="scroll-mt-24 px-6 md:px-16 py-24 bg-gray-950">
         <h2 className="text-2xl font-semibold text-orange-500/90 text-center mb-4">Contacto</h2>
         <p className="text-gray-400 max-w-lg mx-auto text-center mb-10">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Déjanos
@@ -297,7 +297,7 @@ function Home() {
       </section>
 
       {/* Pie de página */}
-      <footer className="bg-gray-900 text-gray-500 text-center py-4 text-sm border-t border-gray-800">
+      <footer className="bg-gray-950 text-gray-500 text-center py-4 text-sm border-t border-gray-800">
         © {new Date().getFullYear()} PrestaFácil. Todos los derechos reservados.
       </footer>
       {mostrarLogin && (

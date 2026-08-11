@@ -1,0 +1,78 @@
+import { useEffect, useState } from "react"
+import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore"
+import { db } from "../firebase"
+
+function AdminDashboard() {
+  const [prestamos, setPrestamos] = useState([])
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "prestamos"), (snapshot) => {
+      setPrestamos(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })))
+    })
+    return () => unsubscribe()
+  }, [])
+
+  const marcarDevuelto = async (id) => {
+    await updateDoc(doc(db, "prestamos", id), { devuelto: true })
+  }
+
+  const activos = prestamos.filter((p) => !p.devuelto)
+  const devueltos = prestamos.filter((p) => p.devuelto)
+
+  return (
+    <div className="min-h-screen bg-gray-50 px-6 py-10">
+      <h1 className="text-2xl font-semibold text-gray-900 mb-8">Panel de Administrador</h1>
+
+      <h2 className="text-lg font-semibold text-gray-800 mb-3">Préstamos activos</h2>
+      <table className="w-full text-left mb-10 bg-white rounded-lg overflow-hidden shadow-sm">
+        <thead className="bg-gray-900 text-white">
+          <tr>
+            <th className="py-2 px-4">Objeto</th>
+            <th className="py-2 px-4">Responsable</th>
+            <th className="py-2 px-4">Fecha préstamo</th>
+            <th className="py-2 px-4">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {activos.map((p) => (
+            <tr key={p.id} className="border-b border-gray-100">
+              <td className="py-2 px-4">{p.objeto}</td>
+              <td className="py-2 px-4">{p.responsable}</td>
+              <td className="py-2 px-4">{p.fecha}</td>
+              <td className="py-2 px-4">
+                <button
+                  onClick={() => marcarDevuelto(p.id)}
+                  className="bg-orange-600 hover:bg-orange-700 text-white text-sm px-4 py-1.5 rounded-full transition"
+                >
+                  Registrar devolución
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h2 className="text-lg font-semibold text-gray-800 mb-3">Historial de devoluciones</h2>
+      <table className="w-full text-left bg-white rounded-lg overflow-hidden shadow-sm">
+        <thead className="bg-gray-900 text-white">
+          <tr>
+            <th className="py-2 px-4">Objeto</th>
+            <th className="py-2 px-4">Responsable</th>
+            <th className="py-2 px-4">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {devueltos.map((p) => (
+            <tr key={p.id} className="border-b border-gray-100">
+              <td className="py-2 px-4">{p.objeto}</td>
+              <td className="py-2 px-4">{p.responsable}</td>
+              <td className="py-2 px-4 text-green-600 font-medium">Devuelto</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+export default AdminDashboard
