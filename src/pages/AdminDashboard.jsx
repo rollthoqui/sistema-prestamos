@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore"
 import { db } from "../firebase"
+import HeaderSimple from "../components/HeaderSimple"
 
 function AdminDashboard() {
   const [prestamos, setPrestamos] = useState([])
@@ -20,12 +21,14 @@ function AdminDashboard() {
   const devueltos = prestamos.filter((p) => p.devuelto)
 
   return (
-    <div className="min-h-screen bg-gray-50 px-6 py-10">
-      <h1 className="text-2xl font-semibold text-gray-900 mb-8">Panel de Administrador</h1>
+  <div className="min-h-screen bg-mesh flex flex-col">
+    <HeaderSimple />
+    <div className="px-6 py-10 flex-1">
+      <h1 className="text-2xl font-semibold text-slate-900 mb-8">Panel de Administrador</h1>
 
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">Préstamos activos</h2>
+      <h2 className="text-lg font-semibold text-slate-800 mb-3">Préstamos activos</h2>
       <table className="w-full text-left mb-10 bg-white rounded-lg overflow-hidden shadow-sm">
-        <thead className="bg-gray-900 text-white">
+        <thead className="bg-slate-900 text-white">
           <tr>
             <th className="py-2 px-4">Objeto</th>
             <th className="py-2 px-4">Responsable</th>
@@ -35,7 +38,7 @@ function AdminDashboard() {
         </thead>
         <tbody>
           {activos.map((p) => (
-            <tr key={p.id} className="border-b border-gray-100">
+            <tr key={p.id} className="border-b border-slate-100">
               <td className="py-2 px-4">{p.objeto}</td>
               <td className="py-2 px-4">{p.responsable}</td>
               <td className="py-2 px-4">{p.fecha}</td>
@@ -52,9 +55,11 @@ function AdminDashboard() {
         </tbody>
       </table>
 
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">Historial de devoluciones</h2>
+      <div className="h-1 w-full bg-gradient-to-r from-slate-900 via-orange-500 to-slate-900 rounded-full mb-10" />
+
+      <h2 className="text-lg font-semibold text-slate-800 mb-3">Historial de devoluciones</h2>
       <table className="w-full text-left bg-white rounded-lg overflow-hidden shadow-sm">
-        <thead className="bg-gray-900 text-white">
+        <thead className="bg-slate-900 text-white">
           <tr>
             <th className="py-2 px-4">Objeto</th>
             <th className="py-2 px-4">Responsable</th>
@@ -63,7 +68,7 @@ function AdminDashboard() {
         </thead>
         <tbody>
           {devueltos.map((p) => (
-            <tr key={p.id} className="border-b border-gray-100">
+            <tr key={p.id} className="border-b border-slate-100">
               <td className="py-2 px-4">{p.objeto}</td>
               <td className="py-2 px-4">{p.responsable}</td>
               <td className="py-2 px-4 text-green-600 font-medium">Devuelto</td>
@@ -72,6 +77,11 @@ function AdminDashboard() {
         </tbody>
       </table>
     </div>
+
+    <footer className="bg-slate-900 text-slate-500 text-center py-4 text-sm border-t border-slate-800">
+      © {new Date().getFullYear()} PrestaFácil. Todos los derechos reservados.
+    </footer>
+  </div>
   )
 }
 

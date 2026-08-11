@@ -2,6 +2,7 @@ import { useState } from "react"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
 import { auth, db } from "../firebase"
+import { useNavigate } from "react-router-dom"
 
 function LoginModal({ onClose, onSuccess }) {
   const [email, setEmail] = useState("")
@@ -9,6 +10,13 @@ function LoginModal({ onClose, onSuccess }) {
   const [error, setError] = useState("")
   const [mostrarPassword, setMostrarPassword] = useState(false)
   const [cargando, setCargando] = useState(false)
+
+  const navigate = useNavigate()
+
+  const irARegistro = () => {
+    onClose()
+    navigate("/registro")
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -79,6 +87,12 @@ function LoginModal({ onClose, onSuccess }) {
           >
             {cargando ? "Verificando..." : "Entrar"}
           </button>
+          <p className="text-center text-sm text-slate-500 mt-2">
+            ¿No tienes cuenta?{""}
+            <button type="button" onClick={irARegistro} className="text-orange-600 hover:underline font-medium">
+              Registrate
+            </button>
+          </p>
         </form>
       </div>
     </div>

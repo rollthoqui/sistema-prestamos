@@ -4,10 +4,10 @@ import LoginModal from "../components/LoginModal"
 
 
 const slides = [
-  { etiqueta: "Bienvenido", titulo: "Gestiona tus préstamos con confianza", texto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-  { etiqueta: "Misión", titulo: "Facilitar el acceso a los recursos compartidos", texto: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-  { etiqueta: "Visión", titulo: "Ser la plataforma de referencia en gestión de préstamos", texto: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." },
-  { etiqueta: "Objetivos", titulo: "Simplicidad, rapidez y transparencia", texto: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." },
+  { etiqueta: "Bienvenido", titulo: "Gestiona tus préstamos con confianza", texto: "Creemos en aprovechar lo que ya existe. Menos desperdicio, más acceso." },
+  { etiqueta: "Misión", titulo: "Facilitar el acceso a los recursos compartidos", texto: "Ser la plataforma de referencia en gestión de préstamos." },
+  { etiqueta: "Visión", titulo: "Ser la plataforma de referencia en gestión de préstamos", texto: "Facilitar el acceso a recursos de forma simple y transparente." },
+  { etiqueta: "Objetivos", titulo: "Simplicidad, rapidez y transparencia", texto: "Solicitar, gestionar y devolver préstamos, sin complicaciones." },
   { etiqueta: "Eslogan", titulo: '"Presta fácil, devuelve más fácil"', texto: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem." },
 ]
 
@@ -62,7 +62,7 @@ function Home() {
 
   const handleLoginExitoso = (rol) => {
   setMostrarLogin(false)
-  navigate(rol === "admin" ? "/admin" : "/solicitar")
+  navigate(rol === "admin" ? "/admin" : "/productos")
     }
 
   return (
@@ -121,13 +121,7 @@ function Home() {
               La razón detrás de PrestaFácil
             </h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur excepteur sint occaecat.
+              En PrestaFácil creemos que muchos recursos valiosos pasan la mayor parte del tiempo sin usarse. Nacimos para resolver ese desperdicio: conectar a quienes tienen objetos disponibles con quienes los necesitan por un tiempo determinado, de forma simple, rápida y confiable.
             </p>
           </div>
           <div className="flex-1 w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center text-orange-500/90 text-sm font-medium">
@@ -147,12 +141,7 @@ function Home() {
               Hacia dónde vamos
             </h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat duis aute irure.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-              odit aut fugit, sed quia consequuntur magni dolores.
+              Ser la plataforma de referencia en gestión de préstamos, reconocida por facilitar el acceso a recursos compartidos de forma transparente, ágil y accesible para cualquier persona u organización.
             </p>
           </div>
           <div className="flex-1 w-full h-64 bg-orange-600 rounded-lg flex items-center justify-center text-white text-sm font-medium">
@@ -175,12 +164,7 @@ function Home() {
               Lo que hacemos cada día
             </h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-              consectetur, adipisci velit, sed quia non numquam eius modi.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa
-              qui officia deserunt mollit anim id est laborum.
+              Facilitar el acceso a objetos y recursos mediante un sistema de préstamos simple y transparente, promoviendo el uso responsable y la confianza entre quienes prestan y quienes solicitan.
             </p>
           </div>
           <div className="flex-1 w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center text-orange-500/90 text-sm font-medium">
@@ -197,12 +181,7 @@ function Home() {
           <div className="flex-1">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Acerca de</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <p className="text-gray-600 leading-relaxed">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur.
+              PrestaFácil es una plataforma digital diseñada para simplificar el proceso de solicitar, gestionar y devolver préstamos de objetos. Combinamos tecnología accesible con un proceso claro, pensado para que cualquier persona pueda encontrar lo que necesita sin complicaciones.
             </p>
           </div>
           <div className="flex-1 w-full h-64 bg-orange-600 rounded-lg flex items-center justify-center text-white text-sm font-medium">
@@ -262,8 +241,7 @@ function Home() {
       <section id="contacto" className="scroll-mt-24 px-6 md:px-16 py-24 bg-gray-950">
         <h2 className="text-2xl font-semibold text-orange-500/90 text-center mb-4">Contacto</h2>
         <p className="text-gray-400 max-w-lg mx-auto text-center mb-10">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Déjanos
-          tus datos y te responderemos pronto.
+          Dejanos un mensaje y te respondemos!
         </p>
         <form onSubmit={handleSubmit} className="max-w-md mx-auto flex flex-col gap-4">
           <input
