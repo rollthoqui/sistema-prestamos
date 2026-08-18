@@ -3,6 +3,13 @@ import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore"
 import { db } from "../firebase"
 import HeaderSimple from "../components/HeaderSimple"
 
+function formatFecha(fecha) {
+  if(!fecha) return "-"
+  if(typeof fecha === "string") return fecha
+  if (fecha.toDate) return fecha.toDate().toLocaleDateString("es-CO")
+  return "-"
+}
+
 function AdminDashboard() {
   const [prestamos, setPrestamos] = useState([])
 
@@ -30,6 +37,7 @@ function AdminDashboard() {
       <table className="w-full text-left mb-10 bg-white rounded-lg overflow-hidden shadow-sm">
         <thead className="bg-slate-900 text-white">
           <tr>
+            <th className="py-2 px-4">ID</th>
             <th className="py-2 px-4">Objeto</th>
             <th className="py-2 px-4">Responsable</th>
             <th className="py-2 px-4">Fecha préstamo</th>
@@ -39,9 +47,10 @@ function AdminDashboard() {
         <tbody>
           {activos.map((p) => (
             <tr key={p.id} className="border-b border-slate-100">
+              <td className="py-2 px-4 font-mono text-xs text-slate-400">#{p.id.substring(0, 8).toUpperCase()}</td>
               <td className="py-2 px-4">{p.objeto}</td>
               <td className="py-2 px-4">{p.responsable}</td>
-              <td className="py-2 px-4">{p.fecha}</td>
+              <td className="py-2 px-4">{formatFecha(p.fecha)}</td>
               <td className="py-2 px-4">
                 <button
                   onClick={() => marcarDevuelto(p.id)}
@@ -61,6 +70,7 @@ function AdminDashboard() {
       <table className="w-full text-left bg-white rounded-lg overflow-hidden shadow-sm">
         <thead className="bg-slate-900 text-white">
           <tr>
+            <th className="py-2 px-4">ID</th>
             <th className="py-2 px-4">Objeto</th>
             <th className="py-2 px-4">Responsable</th>
             <th className="py-2 px-4">Estado</th>
@@ -69,6 +79,7 @@ function AdminDashboard() {
         <tbody>
           {devueltos.map((p) => (
             <tr key={p.id} className="border-b border-slate-100">
+              <td className="py-2 px-4 font-mono text-xs text-slate-400">#{p.id.substring(0, 8).toUpperCase()}</td>
               <td className="py-2 px-4">{p.objeto}</td>
               <td className="py-2 px-4">{p.responsable}</td>
               <td className="py-2 px-4 text-green-600 font-medium">Devuelto</td>

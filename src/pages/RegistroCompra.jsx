@@ -34,17 +34,18 @@ function RegistroCompra() {
     e.preventDefault()
     setCargando(true)
     try {
-      await addDoc(collection(db, "compras"), {
+      await addDoc(collection(db, "prestamos"), {
         usuarioId: auth.currentUser.uid,
-        nombre,
+        objeto: producto.grupo,
+        responsable: nombre,
         documento,
-        producto: {
-          grupo: producto.grupo,
-          monto: producto.monto,
-          plazo: producto.plazo,
-          interes: producto.interes,
-        },
+        monto: producto.monto,
+        montoNumerico: parseInt(producto.monto.replace(/[^\d]/g, "")),
+        plazo: producto.plazo,
+        plazoMeses: parseInt(producto.plazo),
+        interes: producto.interes,
         fecha: serverTimestamp(),
+        devuelto: false,
     })
     navigate("/perfil")
   } catch (error) {
