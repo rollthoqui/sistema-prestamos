@@ -4,6 +4,7 @@ import AdminDashboard from "./pages/AdminDashboard"
 import Productos from "./pages/Productos"
 import RegistroCompra from "./pages/RegistroCompra"
 import Registro from "./pages/Registro"
+import Perfil from "./pages/Perfil"
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/productos" element={<Productos />} />
         <Route path="/registro-compra" element={<RegistroCompra />} />  
         <Route path="/registro" element={<Registro />} />
+        <Route path="/perfil" element={<Perfil />} />
       </Routes>
     </BrowserRouter>
   )

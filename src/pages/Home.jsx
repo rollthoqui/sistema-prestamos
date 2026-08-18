@@ -4,11 +4,11 @@ import LoginModal from "../components/LoginModal"
 
 
 const slides = [
-  { etiqueta: "Bienvenido", titulo: "Gestiona tus préstamos con confianza", texto: "Creemos en aprovechar lo que ya existe. Menos desperdicio, más acceso." },
-  { etiqueta: "Misión", titulo: "Facilitar el acceso a los recursos compartidos", texto: "Ser la plataforma de referencia en gestión de préstamos." },
-  { etiqueta: "Visión", titulo: "Ser la plataforma de referencia en gestión de préstamos", texto: "Facilitar el acceso a recursos de forma simple y transparente." },
-  { etiqueta: "Objetivos", titulo: "Simplicidad, rapidez y transparencia", texto: "Solicitar, gestionar y devolver préstamos, sin complicaciones." },
-  { etiqueta: "Eslogan", titulo: '"Presta fácil, devuelve más fácil"', texto: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem." },
+  { etiqueta: "Bienvenido", titulo: "Gestiona tus préstamos con confianza", texto: "Creemos en aprovechar lo que ya existe. Menos desperdicio, más acceso.", imagen: "/assets/home/caruizp-coins-4910727.jpg" },
+  { etiqueta: "Misión", titulo: "Facilitar el acceso a los recursos compartidos", texto: "Ser la plataforma de referencia en gestión de préstamos.", imagen: "/assets/home/ccfb-finance-4858797.jpg" },
+  { etiqueta: "Visión", titulo: "Ser la plataforma de referencia en gestión de préstamos", texto: "Facilitar el acceso a recursos de forma simple y transparente.", imagen: "/assets/home/caruizp-coins-4910732.jpg" },
+  { etiqueta: "Objetivos", titulo: "Simplicidad, rapidez y transparencia", texto: "Solicitar, gestionar y devolver préstamos, sin complicaciones.", imagen: "/assets/home/caruizp-coins-4910733.jpg" },
+  { etiqueta: "Eslogan", titulo: '"Presta fácil, devuelve más fácil"', texto: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem.", imagen: "/assets/home/raten-kauf-credit-4516068.jpg" },
 ]
 
 //
@@ -89,25 +89,36 @@ function Home() {
       </header>
 
       {/* Carrusel */}
-      <section id="inicio" className="relative w-full h-72 md:h-155
-       bg-gray-900 overflow-hidden">
+      <section id="inicio" className="relative w-full h-80 md:h-158 bg-slate-900 overflow-hidden">
         {slides.map((s, i) => (
           <div
             key={i}
-            className={`absolute inset-0 flex items-center justify-center flex-col gap-3 px-6 text-center transition-opacity duration-700 ${
+            className={`absolute inset-0 transition-opacity duration-700 ${
               i === actual ? "opacity-100" : "opacity-0 pointer-events-none"
-            } ${i % 2 === 0 ? "bg-gray-900" : "bg-gray-900"}`}
+            }`}
           >
-            <span className="text-orange-500/90 text-sm font-semibold uppercase tracking-widest">{s.etiqueta}</span>
-            <h2 className="text-2xl md:text-3xl font-semibold text-white max-w-2xl">{s.titulo}</h2>
-            <p className="text-gray-300 max-w-lg">{s.texto}</p>
+            {s.imagen && (
+              <img
+                src={s.imagen}
+                alt={s.etiqueta}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-slate-900/70" />
+            <div className="relative h-full flex items-center justify-center flex-col gap-3 px-6 text-center">
+              <span className="text-orange-500 text-sm font-semibold uppercase tracking-widest">{s.etiqueta}</span>
+              <h2 className="text-2xl md:text-3xl font-semibold text-white max-w-2xl">{s.titulo}</h2>
+              <p className="text-gray-300 max-w-lg">{s.texto}</p>
+            </div>
           </div>
         ))}
-        <button onClick={anterior} className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-900/40 hover:bg-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center transition">‹</button>
-        <button onClick={siguiente} className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-900/40 hover:bg-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center transition">›</button>
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+
+        <button onClick={anterior} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-orange-500 text-white w-10 h-10 rounded-full flex items-center justify-center transition z-10">‹</button>
+        <button onClick={siguiente} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-orange-500 text-white w-10 h-10 rounded-full flex items-center justify-center transition z-10">›</button>
+
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
           {slides.map((_, i) => (
-            <button key={i} onClick={() => setActual(i)} className={`w-2.5 h-2.5 rounded-full transition ${i === actual ? "bg-orange-600" : "bg-gray-500"}`} />
+            <button key={i} onClick={() => setActual(i)} className={`w-2.5 h-2.5 rounded-full transition ${i === actual ? "bg-orange-500" : "bg-slate-500"}`} />
           ))}
         </div>
       </section>
@@ -124,9 +135,11 @@ function Home() {
               En PrestaFácil creemos que muchos recursos valiosos pasan la mayor parte del tiempo sin usarse. Nacimos para resolver ese desperdicio: conectar a quienes tienen objetos disponibles con quienes los necesitan por un tiempo determinado, de forma simple, rápida y confiable.
             </p>
           </div>
-          <div className="flex-1 w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center text-orange-500/90 text-sm font-medium">
-            Espacio para imagen
-          </div>
+          <img
+           src="/assets/home/ralphs_fotos-handshake-3100563.jpg"
+           alt="Acerca de PrestaFácil"
+           className="flex-1 w-full h-96 md:h-128 rounded-lg object-cover"
+          />
         </div>
       </section>
 
@@ -144,15 +157,23 @@ function Home() {
               Ser la plataforma de referencia en gestión de préstamos, reconocida por facilitar el acceso a recursos compartidos de forma transparente, ágil y accesible para cualquier persona u organización.
             </p>
           </div>
-          <div className="flex-1 w-full h-64 bg-orange-600 rounded-lg flex items-center justify-center text-white text-sm font-medium">
-            Espacio para imagen
-          </div>
+          <img
+           src="/assets/home/nattanan23-clock-2696234.jpg"
+           alt="Acerca de PrestaFácil"
+           className="flex-1 w-full h-96 md:h-128 rounded-lg object-cover"
+          />
         </div>
       </section>
 
       {/* Franja horizontal de imagen */}
-      <div className="w-full h-64 md:h-80 bg-white flex items-center justify-center text-black text-sm font-medium">
-        Espacio horizontal para imagen
+      <div className="relative w-full h-64 md:h-80 overflow-hidden">
+        <img
+          src="/assets/home/alexas_fotos-coins-3652814.jpg"
+          alt="PrestaFácil"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>
 
       {/* Misión — texto izquierda, imagen derecha */}
@@ -167,9 +188,11 @@ function Home() {
               Facilitar el acceso a objetos y recursos mediante un sistema de préstamos simple y transparente, promoviendo el uso responsable y la confianza entre quienes prestan y quienes solicitan.
             </p>
           </div>
-          <div className="flex-1 w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center text-orange-500/90 text-sm font-medium">
-            Espacio para imagen
-          </div>
+          <img
+           src="/assets/home/stevepb-coins-948603.jpg"
+           alt="Acerca de PrestaFácil"
+           className="flex-1 w-full h-96 md:h-128 rounded-lg object-cover"
+          />
         </div>
       </section>
 
@@ -184,23 +207,29 @@ function Home() {
               PrestaFácil es una plataforma digital diseñada para simplificar el proceso de solicitar, gestionar y devolver préstamos de objetos. Combinamos tecnología accesible con un proceso claro, pensado para que cualquier persona pueda encontrar lo que necesita sin complicaciones.
             </p>
           </div>
-          <div className="flex-1 w-full h-64 bg-orange-600 rounded-lg flex items-center justify-center text-white text-sm font-medium">
-            Espacio para imagen
-          </div>
+          <img
+           src="/assets/home/vicafree-money-4621311.jpg"
+           alt="Acerca de PrestaFácil"
+           className="flex-1 w-full h-96 md:h-128 rounded-lg object-cover"
+          />
         </div>
       </section>
 
       {/* Franja horizontal de imagen */}
-      <div className="w-full h-64 md:h-80 bg-white flex items-center justify-center text-black text-sm font-medium">
-        Espacio horizontal para imagen
+      <div className="relative w-full h-64 md:h-80 overflow-hidden">
+        <img
+          src="/assets/home/alexas_fotos-money-1595995.jpg"
+          alt="PrestaFácil"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white to-transparent" />
       </div>
 
       {/* Servicios */}
       <section id="servicios" className="scroll-mt-24 px-6 md:px-16 py-24 bg-gray-900">
         <h2 className="text-2xl font-semibold text-white text-center mb-2">Nuestros Servicios</h2>
         <p className="text-center text-gray-400 max-w-xl mx-auto mb-12">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Aqui podras encontrar nuestros diferentes servicios disponibles, con sus respectivas descripciones y disponibilidad.
         </p>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-gray-300">
@@ -213,23 +242,23 @@ function Home() {
             </thead>
             <tbody>
               <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition">
-                <td className="py-3 px-4 font-medium text-white">Préstamo de objetos</td>
-                <td className="py-3 px-4">Lorem ipsum dolor sit amet consectetur adipiscing elit.</td>
+                <td className="py-3 px-4 font-medium text-white">Servicio de Joyas</td>
+                <td className="py-3 px-4">Aceptamos Permutaciones de joyas</td>
                 <td className="py-3 px-4 text-orange-500/90 font-medium">Inmediata</td>
               </tr>
               <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition">
                 <td className="py-3 px-4 font-medium text-white">Servicio de Prestamos </td>
-                <td className="py-3 px-4">Sed do eiusmod tempor incididunt ut labore et dolore.</td>
+                <td className="py-3 px-4">Servicio de préstamos de objetos</td>
                 <td className="py-3 px-4 text-orange-500/90 font-medium">24/7</td>
               </tr>
               <tr className="border-b border-gray-800 hover:bg-gray-800/50 transition">
                 <td className="py-3 px-4 font-medium text-white">Servicio de Electrodomesticos</td>
-                <td className="py-3 px-4">Ut enim ad minim veniam quis nostrud exercitation.</td>
+                <td className="py-3 px-4">Aceptamos electrodomesticos</td>
                 <td className="py-3 px-4 text-orange-500/90 font-medium">Inmediata</td>
               </tr>
               <tr className="hover:bg-gray-800/50 transition">
                 <td className="py-3 px-4 font-medium text-white">Servicio de Inmuebles</td>
-                <td className="py-3 px-4">Duis aute irure dolor in reprehenderit in voluptate.</td>
+                <td className="py-3 px-4">Aceptamos Inmuebles</td>
                 <td className="py-3 px-4 text-orange-500/90 font-medium">Inmediata</td>
               </tr>
             </tbody>

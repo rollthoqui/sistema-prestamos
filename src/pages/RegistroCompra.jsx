@@ -1,10 +1,17 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import HeaderSimple from "../components/HeaderSimple"
+import { addDoc, collection, serverTimestamp } from "firebase/firestore"
+import { db, auth } from "../firebase"
+import { useState } from "react"
+
 
 function RegistroCompra() {
   const location = useLocation()
   const producto = location.state
   const navigate = useNavigate()
+  const [nombre, setNombre] = useState("")
+  const [documento, setDocumento] = useState("")
+  const [cargando, setCargando] = useState(false)
 
   if (!producto) {
     return (
@@ -23,10 +30,29 @@ function RegistroCompra() {
     )
   }
 
-  const handleConfirmar = (e) => {
+  const handleConfirmar = async (e) => {
     e.preventDefault()
-    console.log("Compra registrada:", producto)
+    setCargando(true)
+    try {
+      await addDoc(collection(db, "compras"), {
+        usuarioId: auth.currentUser.uid,
+        nombre,
+        documento,
+        producto: {
+          grupo: producto.grupo,
+          monto: producto.monto,
+          plazo: producto.plazo,
+          interes: producto.interes,
+        },
+        fecha: serverTimestamp(),
+    })
+    navigate("/perfil")
+  } catch (error) {
+    console.error("Error al registrar la compra:", error)
+  } finally {
+    setCargando(false)
   }
+}
 
   return (
     <div className="min-h-screen bg-mesh">
@@ -48,12 +74,16 @@ function RegistroCompra() {
             <input
               type="text"
               placeholder="Nombre completo"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
               className="border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:border-orange-500"
               required
             />
             <input
               type="text"
               placeholder="Documento de identidad"
+              value={documento}
+              onChange={(e) => setDocumento(e.target.value)}
               className="border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:border-orange-500"
               required
             />
@@ -61,7 +91,7 @@ function RegistroCompra() {
               type="submit"
               className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-3 rounded-full transition"
             >
-              Confirmar compra
+              {cargando ? "Registrando..." : "Confirmar compra"}
             </button>
           </form>
         </div>
