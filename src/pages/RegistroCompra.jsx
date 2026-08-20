@@ -36,6 +36,7 @@ function RegistroCompra() {
     try {
       await addDoc(collection(db, "prestamos"), {
         usuarioId: auth.currentUser.uid,
+        correo: auth.currentUser.email,
         objeto: producto.grupo,
         responsable: nombre,
         documento,
@@ -48,12 +49,12 @@ function RegistroCompra() {
         devuelto: false,
     })
     navigate("/perfil")
-  } catch (error) {
+      } catch (error) {
     console.error("Error al registrar la compra:", error)
-  } finally {
+      } finally {
     setCargando(false)
+      }
   }
-}
 
   return (
     <div className="min-h-screen bg-mesh">

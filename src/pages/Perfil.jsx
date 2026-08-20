@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { collection, query, where, orderBy, onSnapshot, doc, updateDoc } from "firebase/firestore"
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+  doc,
+  updateDoc,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore"
 import { signOut } from "firebase/auth"
 import { db, auth } from "../firebase"
 import { useAuth } from "../context/useAuth"
@@ -18,6 +28,7 @@ function Perfil() {
   const [compras, setCompras] = useState([])
   const [montoAdelanto, setMontoAdelanto] = useState("")
   const [cuotasAdelanto, setCuotasAdelanto] = useState("")
+  const [metodoPago, setMetodoPago] = useState("Transferencia bancaria")
   const [mensajeAdelanto, setMensajeAdelanto] = useState("")
   const navigate = useNavigate()
 
@@ -26,6 +37,7 @@ function Perfil() {
     const q = query(
       collection(db, "prestamos"),
       where("usuarioId", "==", usuario.uid),
+      where("devuelto", "==", false),
       orderBy("fecha", "desc")
     )
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -39,15 +51,17 @@ function Perfil() {
     navigate("/")
   }
 
-  // proximaCuota debe declararse ANTES de cualquier cálculo que dependa de ella
   const proximaCuota = compras.length > 0 ? compras[0] : null
 
   const plazoMeses = proximaCuota?.plazoMeses || 0
   const cuotasAdelantadas = proximaCuota?.cuotasAdelantadas || 0
   const montoAdelantado = proximaCuota?.montoAdelantado || 0
   const mesesRestantes = Math.max(plazoMeses - cuotasAdelantadas, 0)
-  const montoTotal = proximaCuota?.montoNumerico || 0
-  const montoRestante = Math.max(montoTotal - montoAdelantado, 0)
+
+  const tasaInteres = parseFloat(proximaCuota?.interes) || 0
+  const montoBase = proximaCuota?.montoNumerico || 0
+  const montoConInteres = montoBase * (1 + tasaInteres / 100)
+  const montoRestante = Math.max(montoConInteres - montoAdelantado, 0)
   const cuotaMensual = mesesRestantes > 0 ? montoRestante / mesesRestantes : 0
 
   const handleAdelantarCuotas = async (e) => {
@@ -75,12 +89,26 @@ function Perfil() {
       return
     }
 
+    const nuevasCuotas = cuotasAdelantadas + cuotas
+    const completado = nuevasCuotas >= plazoMeses
+
     try {
+      await addDoc(collection(db, "pagos"), {
+        prestamoId: proximaCuota.id,
+        usuarioId: usuario.uid,
+        monto,
+        cuotas,
+        metodo: metodoPago,
+        fecha: serverTimestamp(),
+      })
       await updateDoc(doc(db, "prestamos", proximaCuota.id), {
         montoAdelantado: montoAdelantado + monto,
-        cuotasAdelantadas: cuotasAdelantadas + cuotas,
+        cuotasAdelantadas: nuevasCuotas,
+        ...(completado ? { devuelto: true, fechaFinalizacion: serverTimestamp() } : {}),
       })
-      setMensajeAdelanto("¡Adelanto registrado correctamente!")
+      setMensajeAdelanto(
+        completado ? "¡Felicidades, terminaste de pagar este préstamo!" : "¡Adelanto registrado correctamente!"
+      )
       setMontoAdelanto("")
       setCuotasAdelanto("")
     } catch (err) {
@@ -88,6 +116,7 @@ function Perfil() {
       setMensajeAdelanto("No se pudo registrar el adelanto. Intenta de nuevo.")
     }
   }
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <HeaderSimple />
@@ -102,9 +131,9 @@ function Perfil() {
           </div>
         </div>
 
-        <h2 className="text-lg font-semibold text-slate-800 mb-3">Historial</h2>
+        <h2 className="text-lg font-semibold text-slate-800 mb-3">Préstamos activos</h2>
         {compras.length === 0 ? (
-          <p className="text-slate-500 text-sm mb-10">Todavía no tienes préstamos registrados.</p>
+          <p className="text-slate-500 text-sm mb-10">No tienes préstamos activos en este momento.</p>
         ) : (
           <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-10">
             <table className="w-full text-left text-sm">
@@ -151,42 +180,47 @@ function Perfil() {
             </div>
 
             <h2 className="text-lg font-semibold text-slate-800 mb-3">Adelantar cuotas</h2>
-            {mesesRestantes > 0 ? (
-              <>
-                <p className="text-sm text-slate-500 mb-3">
-                  Cuota mensual aproximada: <span className="font-semibold text-slate-800">${cuotaMensual.toLocaleString("es-CO")}</span>
-                  {" · "}
-                  Meses restantes: <span className="font-semibold text-slate-800">{mesesRestantes}</span>
-                </p>
-                <form onSubmit={handleAdelantarCuotas} className="bg-white border border-slate-200 rounded-lg p-4 flex flex-col sm:flex-row gap-3 mb-2">
-                  <input
-                    type="number"
-                    min="1"
-                    step="any"
-                    placeholder="Monto a adelantar"
-                    value={montoAdelanto}
-                    onChange={(e) => setMontoAdelanto(e.target.value)}
-                    className="flex-1 border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-500"
-                  />
-                  <input
-                    type="number"
-                    min="1"
-                    max={mesesRestantes}
-                    step="1"
-                    placeholder="N° de cuotas"
-                    value={cuotasAdelanto}
-                    onChange={(e) => setCuotasAdelanto(e.target.value)}
-                    className="w-full sm:w-32 border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-500"
-                  />
-                  <button type="submit" className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded-full transition">
-                    Adelantar
-                  </button>
-                </form>
-                {mensajeAdelanto && <p className="text-sm text-slate-600 mb-10">{mensajeAdelanto}</p>}
-              </>
-            ) : (
-              <p className="text-sm text-green-600 mb-10">¡Ya completaste el pago de este préstamo!</p>
-            )}
+            <p className="text-sm text-slate-500 mb-3">
+              Total con interés: <span className="font-semibold text-slate-800">${montoConInteres.toLocaleString("es-CO")}</span>
+              {" · "}
+              Cuota mensual aproximada: <span className="font-semibold text-slate-800">${cuotaMensual.toLocaleString("es-CO")}</span>
+              {" · "}
+              Meses restantes: <span className="font-semibold text-slate-800">{mesesRestantes}</span>
+            </p>
+            <form onSubmit={handleAdelantarCuotas} className="bg-white border border-slate-200 rounded-lg p-4 flex flex-col sm:flex-row gap-3 mb-2">
+              <input
+                type="number"
+                min="1"
+                step="any"
+                placeholder="Monto a adelantar"
+                value={montoAdelanto}
+                onChange={(e) => setMontoAdelanto(e.target.value)}
+                className="flex-1 border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-500"
+              />
+              <input
+                type="number"
+                min="1"
+                max={mesesRestantes}
+                step="1"
+                placeholder="N° de cuotas"
+                value={cuotasAdelanto}
+                onChange={(e) => setCuotasAdelanto(e.target.value)}
+                className="w-full sm:w-32 border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-500"
+              />
+              <select
+                value={metodoPago}
+                onChange={(e) => setMetodoPago(e.target.value)}
+                className="border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-500"
+              >
+                <option>Transferencia bancaria</option>
+                <option>PSE</option>
+                <option>Punto físico</option>
+              </select>
+              <button type="submit" className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded-full transition">
+                Adelantar
+              </button>
+            </form>
+            {mensajeAdelanto && <p className="text-sm text-slate-600 mb-10">{mensajeAdelanto}</p>}
           </>
         )}
 

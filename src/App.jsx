@@ -5,6 +5,7 @@ import Productos from "./pages/Productos"
 import RegistroCompra from "./pages/RegistroCompra"
 import Registro from "./pages/Registro"
 import Perfil from "./pages/Perfil"
+import Factura from "./pages/Factura"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/registro-compra" element={<RegistroCompra />} />  
         <Route path="/registro" element={<Registro />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/admin/factura/:id" element={<Factura />} />
       </Routes>
     </BrowserRouter>
   )
