@@ -59,6 +59,7 @@ function Home() {
 
   const [mostrarLogin, setMostrarLogin] = useState(false)
   const navigate = useNavigate()
+  const [menuAbierto, setMenuAbierto] = useState(false)
 
   const handleLoginExitoso = (rol) => {
   setMostrarLogin(false)
@@ -68,24 +69,52 @@ function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-700">
       {/* Encabezado */}
-      <header className="sticky top-0 z-50 bg-gray-900/95 backdrop-blur border-b border-gray-800 px-6 py-4 flex items-center justify-between">
-        <button
-         onClick={(e) => irASeccion(e, "inicio")}
-         className="text-xl font-semibold text-white hover:opacity-80 transition"
-         >
-    Presta<span className="text-orange-500/90">Fácil</span>
+      <header className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-4 flex items-center justify-between relative">
+        <button onClick={(e) => irASeccion(e, "inicio")} className="text-xl font-semibold text-white hover:opacity-80 transition">
+          Presta<span className="text-orange-500">Fácil</span>
         </button>
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
-            <a href="#nosotros" onClick={(e) => irASeccion(e, "nosotros")} className="hover:text-orange-500/90 transition">Acerca de</a>
-            <a href="#servicios" onClick={(e) => irASeccion(e, "servicios")} className="hover:text-orange-500/90 transition">Servicios</a>
-            <a href="#contacto" onClick={(e) => irASeccion(e, "contacto")} className="hover:text-orange-500/90 transition">Contacto</a>
-            <button
-            onClick={() => setMostrarLogin(true)}
-            className="bg-orange-600 hover:bg-orange-600 text-white font-semibold px-6 py-2.5 rounded-full transition shadow-md shadow-orange-500/30"
-            >
+
+        {/* Menú de escritorio */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+          <a href="#nosotros" onClick={(e) => irASeccion(e, "nosotros")} className="hover:text-orange-500 transition">Acerca de</a>
+          <a href="#servicios" onClick={(e) => irASeccion(e, "servicios")} className="hover:text-orange-500 transition">Servicios</a>
+          <a href="#contacto" onClick={(e) => irASeccion(e, "contacto")} className="hover:text-orange-500 transition">Contacto</a>
+          <button onClick={() => setMostrarLogin(true)} className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2.5 rounded-full transition shadow-md shadow-orange-500/30">
             Solicitar Préstamo
-            </button>
+          </button>
         </nav>
+
+        {/* Botón hamburguesa — solo en móvil */}
+        <button
+          onClick={() => setMenuAbierto(!menuAbierto)}
+          className="md:hidden text-white w-9 h-9 flex items-center justify-center"
+          aria-label="Abrir menú"
+        >
+          {menuAbierto ? (
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          )}
+        </button>
+
+        {/* Menú desplegable — solo en móvil, cuando está abierto */}
+        {menuAbierto && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-slate-900 border-b border-slate-800 flex flex-col px-6 py-4 gap-4 text-sm font-medium text-slate-300">
+            <a href="#nosotros" onClick={(e) => { irASeccion(e, "nosotros"); setMenuAbierto(false) }} className="hover:text-orange-500 transition">Acerca de</a>
+            <a href="#servicios" onClick={(e) => { irASeccion(e, "servicios"); setMenuAbierto(false) }} className="hover:text-orange-500 transition">Servicios</a>
+            <a href="#contacto" onClick={(e) => { irASeccion(e, "contacto"); setMenuAbierto(false) }} className="hover:text-orange-500 transition">Contacto</a>
+            <button
+              onClick={() => { setMostrarLogin(true); setMenuAbierto(false) }}
+              className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2.5 rounded-full transition text-center"
+            >
+              Solicitar Préstamo
+            </button>
+          </div>
+        )}
       </header>
 
       {/* Carrusel */}
